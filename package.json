@@ -7,10 +7,7 @@
     "start:auth": "node auth/index.js > auth.log 2>&1 &",
     "start:user": "node user_details/index.js > user_details.log 2>&1 &",
     "start:product": "node product_details/index.js > product_details.log 2>&1 &",
-    "build:auth": "cd auth && npm install && npm run build",
-    "build:user_details": "cd user_details && npm install && npm run build",
-    "build:product_details": "cd product_details && npm install && npm run build",
-    "build": "git diff --name-only HEAD~1 HEAD | grep -q -E '^(auth|user_details|product_details)/' && npm run build:auth && npm run build:user_details && npm run build:product_details || (git diff --name-only HEAD~1 HEAD | grep -q -E '^auth/' && npm run build:auth) || (git diff --name-only HEAD~1 HEAD | grep -q -E '^user_details/' && npm run build:user_details) || (git diff --name-only HEAD~1 HEAD | grep -q -E '^product_details/' && npm run build:product_details)",
+    "build": "npm install",
     "start:production": "node ./index.js > prod.log 2>&1 &",
     "test:auth": "jest ./auth --coverage"
   },
