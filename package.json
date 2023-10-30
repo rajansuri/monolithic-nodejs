@@ -1,0 +1,27 @@
+{
+  "name": "jenkins-dummy",
+  "version": "0.0.1",
+  "description": "Dummy app to test jenkins pipeline files",
+  "main": "index.js",
+  "scripts": {
+    "start:auth": "node auth/index.js > auth.log 2>&1 &",
+    "start:user": "node user_details/index.js > user_details.log 2>&1 &",
+    "start:product": "node product_details/index.js > product_details.log 2>&1 &",
+    "build": "npm install",
+    "start:production": "node ./index.js > prod.log 2>&1 &",
+    "test:auth": "jest ./auth --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.5.1",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  }
+}
