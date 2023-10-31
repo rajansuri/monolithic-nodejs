@@ -1,22 +1,28 @@
+def buildService(String serviceDir) {
+    echo "Building service: ${serviceDir}"
+    sh "cd ${serviceDir} && npm install"
+    sh "cd ${serviceDir} && npm run build"
+    // Add additional build and test steps here if needed
+}
+
 node {
     stage('Checkout') {
         git branch: 'main', url: 'https://github.com/rajansuri/monolithic-nodejs.git'
     }
 
     stage('Build') {
-        // Determine which directory has changes
         def changes = sh(script: 'git diff --name-only HEAD~1 HEAD', returnStdout: true).trim()
         echo "Changes: ${changes}"
 
-        def dirs = ['auth', 'user_details', 'product_details']
-        def buildDir = dirs.find { dir -> changes.contains("${dir}/") }
+        def serviceDirs = ['auth', 'user_details', 'product_details']
 
-        if (buildDir) {
-            echo "Building service: ${buildDir}"
-            sh "cd ${buildDir} && npm install"
-            sh "cd ${buildDir} && npm run build"
-            //sh "cd ${buildDir} && npm run test:auth"
-        } else {
+        for (def dir in serviceDirs) {
+            if (changes.contains("${dir}/")) {
+                buildService(dir)
+            }
+        }
+
+        if (!changes.any { changeDir -> serviceDirs.any { changeDir.startsWith(it + "/") } }) {
             echo "No changes detected in service directories"
         }
     }
