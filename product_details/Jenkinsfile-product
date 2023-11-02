@@ -1,0 +1,16 @@
+def buildService(String serviceDir) {
+    echo "Building service: ${serviceDir}"
+    sh "cd ${serviceDir} && npm install"
+    sh "cd ${serviceDir} && npm run build"
+    // Add additional build and test steps here if needed
+}
+
+node {
+    stage('Checkout') {
+        git branch: 'main', url: 'https://github.com/rajansuri/monolithic-nodejs.git'
+    }
+
+    stage('Build') {
+        buildService('product_details')
+    }
+}
